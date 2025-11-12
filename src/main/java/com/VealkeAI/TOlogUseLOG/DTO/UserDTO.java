@@ -1,4 +1,15 @@
 package com.VealkeAI.TOlogUseLOG.DTO;
 
-public record UserDTO() {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+
+import java.util.List;
+
+public record UserDTO(
+        @Null
+        Long Id,
+        @NotNull
+        Long tgId,
+        List<Long> taskIdList
+) {
 }

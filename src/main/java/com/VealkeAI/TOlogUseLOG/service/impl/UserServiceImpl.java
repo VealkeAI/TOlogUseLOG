@@ -1,4 +1,82 @@
-package com.VealkeAI.TOlogUseLOG.service;
+package com.VealkeAI.TOlogUseLOG.service.impl;
 
-public class UserService {
+import com.VealkeAI.TOlogUseLOG.DTO.UserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.mapper.UserMapper;
+import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
+import com.VealkeAI.TOlogUseLOG.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    @Override
+    public UserDTO createUser(UserDTO userToCreate) {
+
+        if (userToCreate.Id() != null) {
+            throw new IllegalArgumentException("ID should be empty");
+        }
+
+        var createdUser = userRepository.save(userMapper.toEntity(userToCreate));
+
+        return userMapper.toDomain(createdUser);
+    }
+
+    @Override
+    public UserDTO getUser(Long id) {
+
+        var user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by id: " + id)
+                );
+
+        return userMapper.toDomain(user);
+    }
+
+    @Override
+    public UserDTO getByTelegramUser(Long id) {
+
+        var user = userRepository.findByTgId(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by telegram id: " + id)
+                );
+
+        return userMapper.toDomain(user);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+
+        var user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by id: " + id)
+                );
+
+        userRepository.delete(user);
+    }
+
+    @Override
+    public UserDTO updateUser(Long id, UserDTO userToUpdate) {
+
+        var user = userRepository.findByTgId(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by id: " + id)
+                );
+
+        if (userToUpdate.Id() != null) {
+            throw new IllegalArgumentException("ID should be empty");
+        }
+
+        var userToSave = userMapper.toEntity(userToUpdate);
+        userToSave.setId(id);
+
+        var updatedUser = userRepository.save(userToSave);
+
+        return userMapper.toDomain(updatedUser);
+    }
 }

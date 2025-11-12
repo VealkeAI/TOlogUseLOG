@@ -1,4 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.repository;
 
-public interface TaskRepository {
+import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 }
