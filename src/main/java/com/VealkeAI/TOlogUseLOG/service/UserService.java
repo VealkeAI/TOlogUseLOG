@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     UserDTO createUser(UserDTO userToCreate);
-    UserDTO getUser(Long id);
-    UserDTO getByTelegramUser(Long id);
+    UserDTO getUserById(Long id);
+    UserDTO getUserByTgId(Long id);
     void deleteUser(Long id);
     UserDTO updateUser(Long id, UserDTO userToUpdate);
 }

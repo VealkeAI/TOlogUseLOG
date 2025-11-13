@@ -7,7 +7,7 @@ import java.util.List;
 
 public record UserDTO(
         @Null
-        Long Id,
+        Long id,
         @NotNull
         Long tgId,
         List<Long> taskIdList

@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(UserDTO userToCreate) {
 
-        if (userToCreate.Id() != null) {
+        if (userToCreate.id() != null) {
             throw new IllegalArgumentException("ID should be empty");
         }
 
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUser(Long id) {
+    public UserDTO getUserById(Long id) {
 
         var user = userRepository.findById(id)
                 .orElseThrow(
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getByTelegramUser(Long id) {
+    public UserDTO getUserByTgId(Long id) {
 
         var user = userRepository.findByTgId(id)
                 .orElseThrow(
@@ -63,12 +63,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userToUpdate) {
 
-        var user = userRepository.findByTgId(id)
+        var user = userRepository.findById(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found user by id: " + id)
                 );
 
-        if (userToUpdate.Id() != null) {
+        if (userToUpdate.id() != null) {
             throw new IllegalArgumentException("ID should be empty");
         }
 

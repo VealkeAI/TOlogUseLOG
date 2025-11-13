@@ -42,7 +42,7 @@ public class UserMapper {
                 : null;
 
         return new UserEntity(
-                dto.Id(),
+                dto.id(),
                 dto.tgId(),
                 taskList
         );
