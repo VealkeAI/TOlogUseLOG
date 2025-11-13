@@ -25,7 +25,7 @@ public class UserEntity {
     @Column(name = "telegram_id")
     private Long tgId;
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "user")
     private List<TaskEntity> listOfTask;
 
     public UserEntity() {}
