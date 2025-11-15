@@ -8,6 +8,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 @AllArgsConstructor
 public class TaskMapper {
@@ -32,12 +34,14 @@ public class TaskMapper {
         var user = userRepository.findById(dto.id())
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.id()));
 
+        var creationTime = LocalDate.now();
+
         return new TaskEntity(
                 dto.id(),
                 user,
                 dto.name(),
                 dto.description(),
-                dto.creationTime(),
+                creationTime,
                 dto.deadline(),
                 dto.priority(),
                 dto.state()

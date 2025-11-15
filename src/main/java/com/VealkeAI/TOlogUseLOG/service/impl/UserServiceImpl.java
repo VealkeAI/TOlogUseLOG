@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userToUpdate) {
 
-        var user = userRepository.findById(id)
+        userRepository.findById(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found user by id: " + id)
                 );
