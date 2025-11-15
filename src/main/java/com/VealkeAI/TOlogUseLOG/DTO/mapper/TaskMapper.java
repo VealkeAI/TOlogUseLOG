@@ -31,8 +31,8 @@ public class TaskMapper {
 
     public TaskEntity toEntity(TaskDTO dto) {
 
-        var user = userRepository.findById(dto.id())
-                .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.id()));
+        var user = userRepository.findById(dto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.userId()));
 
         var creationTime = LocalDate.now();
 

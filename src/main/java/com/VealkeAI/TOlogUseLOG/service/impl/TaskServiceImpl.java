@@ -21,11 +21,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO createTask(TaskDTO taskToCreate) {
 
-        if(taskToCreate.id() != null && taskToCreate.creationTime() != null) {
+        if(taskToCreate.id() != null || taskToCreate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
         }
 
-        if(taskToCreate.deadline().isBefore(LocalDate.now())){
+        if(taskToCreate.deadline() != null && taskToCreate.deadline().isBefore(LocalDate.now())){
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
@@ -37,11 +37,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO updateTask(Long id, TaskDTO taskToUpdate) {
 
-        if(taskToUpdate.id() != null && taskToUpdate.creationTime() != null) {
+        if(taskToUpdate.id() != null || taskToUpdate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
         }
 
-        if(taskToUpdate.deadline().isBefore(LocalDate.now())){
+        if(taskToUpdate.deadline() != null && taskToUpdate.deadline().isBefore(LocalDate.now())){
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
