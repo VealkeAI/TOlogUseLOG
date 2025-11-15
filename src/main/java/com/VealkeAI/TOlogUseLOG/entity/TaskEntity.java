@@ -49,7 +49,7 @@ public class TaskEntity {
     @Enumerated(EnumType.STRING)
     private PriorityStatus priority;
 
-    @Column(name = "state", nullable = false)
+    @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private State state;
 
