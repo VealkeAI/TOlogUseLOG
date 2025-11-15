@@ -22,7 +22,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "telegram_id")
+    @Column(name = "telegram_id", nullable = false)
     private Long tgId;
 
     @OneToMany(mappedBy = "user")
