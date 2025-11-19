@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.service;
+package com.VealkeAI.TOlogUseLOG.service.scheduler;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
