@@ -1,7 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.DTO;
 
-import com.VealkeAI.TOlogUseLOG.web.PriorityStatus;
-import com.VealkeAI.TOlogUseLOG.web.State;
+import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
+import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;

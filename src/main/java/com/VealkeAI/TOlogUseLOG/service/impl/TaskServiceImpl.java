@@ -17,6 +17,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final SchedulerService schedulerService;
 
     @Override
     public TaskDTO createTask(TaskDTO taskToCreate) {
@@ -30,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
+        schedulerService.createJob(taskToCreate);
 
         return taskMapper.toDomain(createdTask);
     }
