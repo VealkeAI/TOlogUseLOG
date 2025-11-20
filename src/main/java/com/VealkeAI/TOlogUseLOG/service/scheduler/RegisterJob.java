@@ -23,7 +23,7 @@ public class RegisterJob {
 
         return JobBuilder
                 .newJob(SendMessageJob.class)
-                .withIdentity(task.id().toString(), task.userId().toString())
+                .withIdentity(task.name(), task.userId().toString())
                 .usingJobData(data)
                 .storeDurably()
                 .build();
@@ -32,8 +32,8 @@ public class RegisterJob {
     public static Trigger buildTrigger(TaskDTO task) {
         return TriggerBuilder
                 .newTrigger()
-                .withIdentity(task.id().toString(), task.userId().toString())
-                .withDescription("Trigger for task " + task.id())
+                .withIdentity(task.name(), task.userId().toString())
+                .withDescription("Trigger for task " + task.userId())
                 .startAt(Util.toDate(task.deadline()))
                 .build();
     }

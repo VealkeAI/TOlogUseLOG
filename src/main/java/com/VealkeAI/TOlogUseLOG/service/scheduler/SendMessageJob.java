@@ -1,5 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.service.scheduler;
 
+import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -17,8 +18,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendMessageJob implements Job {
 
+    // this shit needs tests
+
     private final Logger logger = LoggerFactory.getLogger(SendMessageJob.class);
     private final RestTemplate restTemple;
+    private final UserRepository userRepository;
 
     @Value("${bot.url.post}")
     private String url;
@@ -27,12 +31,14 @@ public class SendMessageJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         JobDataMap data = jobExecutionContext.getMergedJobDataMap();
 
-        String userId = data.getString("userId");
-        String name = data.getString("name");
-        String description = data.getString("description");
+        var userId = data.getLong("userId");
+        var name = data.getString("name");
+        var description = data.getString("description");
+
+        var tgId = userRepository.findById(userId);
 
         Map<String, String> requestBody = Map.of(
-                "userId", userId,
+                "tgId", tgId.toString(),
                 "name", name,
                 "description", description
         );
