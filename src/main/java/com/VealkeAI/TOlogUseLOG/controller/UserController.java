@@ -45,13 +45,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<Void> createUser(@RequestBody UserDTO user) {
 
-        var createdUser = service.createUser(user);
+        service.createUser(user);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createdUser);
+                .build();
     }
 
     @DeleteMapping("{id}")

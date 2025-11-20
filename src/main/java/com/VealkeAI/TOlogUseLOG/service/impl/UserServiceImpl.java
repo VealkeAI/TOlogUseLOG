@@ -16,15 +16,18 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserDTO createUser(UserDTO userToCreate) {
+    public void createUser(UserDTO userToCreate) {
 
         if (userToCreate.id() != null) {
             throw new IllegalArgumentException("ID should be empty");
         }
 
-        var createdUser = userRepository.save(userMapper.toEntity(userToCreate));
+        if (userRepository.findByTgId(userToCreate.tgId())
+                .orElse(null) == null)
+        {
+            userRepository.save(userMapper.toEntity(userToCreate));
+        }
 
-        return userMapper.toDomain(createdUser);
     }
 
     @Override
