@@ -1,7 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.service.scheduler.RegisterJob;
 import lombok.AllArgsConstructor;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -17,21 +17,16 @@ public class SchedulerService {
 
     private final Scheduler scheduler;
 
-    @PostConstruct
-    public void init() {
+    public void createJob(TaskDTO task) {
         try {
-            scheduler.start();
-        } catch (SchedulerException e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
+            var detail = RegisterJob.buildJobDetail(task);
+            var trigger = RegisterJob.buildTrigger(task);
 
-    @PreDestroy
-    public void preDestroy() {
-        try {
-            scheduler.shutdown();
+            scheduler.scheduleJob(detail, trigger);
+
+            logger.info("created job for user with id: {}", task.id());
         } catch (SchedulerException e) {
-            logger.error(e.getMessage(), e);
+            logger.error(e.getMessage());
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.condig;
+package com.VealkeAI.TOlogUseLOG.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
