@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service.scheduler;
 
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -18,8 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendMessageJob implements Job {
 
-    // this shit needs tests
-
     private final Logger logger = LoggerFactory.getLogger(SendMessageJob.class);
     private final RestTemplate restTemple;
     private final UserRepository userRepository;
@@ -35,14 +34,16 @@ public class SendMessageJob implements Job {
         var name = data.getString("name");
         var description = data.getString("description");
 
-        var tgId = userRepository.findById(userId);
+        var user = userRepository.findById(userId).orElseThrow(()
+                -> new EntityNotFoundException("not found user by id: " + userId));
 
         Map<String, String> requestBody = Map.of(
-                "tgId", tgId.toString(),
+                "userId", user.getTgId().toString(),
                 "name", name,
                 "description", description
         );
 
+        //TODO: add exception handler
         restTemple.postForObject(url, requestBody, String.class);
 
         logger.info("done job for user: {}", userId);
