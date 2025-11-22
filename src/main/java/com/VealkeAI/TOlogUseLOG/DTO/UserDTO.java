@@ -10,6 +10,7 @@ public record UserDTO(
         Long id,
         @NotNull
         Long tgId,
-        List<Long> taskIdList
+        List<Long> taskIdList,
+        Integer shiftUTC
 ) {
 }

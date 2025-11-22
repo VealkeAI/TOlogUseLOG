@@ -2,13 +2,12 @@ package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
-import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Component
 @AllArgsConstructor
@@ -34,7 +33,7 @@ public class TaskMapper {
         var user = userRepository.findByTgId(dto.userId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.userId()));
 
-        var creationTime = LocalDate.now();
+        var creationTime = Instant.now();
 
         return new TaskEntity(
                 dto.id(),

@@ -28,5 +28,8 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<TaskEntity> listOfTask;
 
+    @Column(name = "shift UTC")
+    private Integer shiftUTC;
+
     public UserEntity() {}
 }

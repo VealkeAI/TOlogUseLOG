@@ -26,7 +26,8 @@ public class UserMapper {
         return new UserDTO(
                 entity.getId(),
                 entity.getTgId(),
-                taskList
+                taskList,
+                entity.getShiftUTC()
         );
     }
 
@@ -44,7 +45,8 @@ public class UserMapper {
         return new UserEntity(
                 dto.id(),
                 dto.tgId(),
-                taskList
+                taskList,
+                dto.shiftUTC()
         );
     }
 }

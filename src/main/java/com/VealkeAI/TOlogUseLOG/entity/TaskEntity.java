@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -38,10 +38,10 @@ public class TaskEntity {
     private String description;
 
     @Column(name = "creation_time", nullable = false)
-    private LocalDate creationTime;
+    private Instant creationTime;
 
     @Column(name = "deadline")
-    private LocalDate deadline;
+    private Instant deadline;
 
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)

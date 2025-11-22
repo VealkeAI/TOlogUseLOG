@@ -6,7 +6,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 public record TaskDTO (
         @Null
@@ -17,9 +17,9 @@ public record TaskDTO (
         String name,
         String description,
         @Null
-        LocalDate creationTime,
+        Instant creationTime,
         @FutureOrPresent
-        LocalDate deadline,
+        Instant deadline,
         PriorityStatus priority,
         State state
 
