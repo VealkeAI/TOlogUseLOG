@@ -31,7 +31,7 @@ public class GlobalErrorHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handlerGenericException(EntityNotFoundException e) {
+    public ResponseEntity<ErrorResponseDTO> handlerEntityNotFoundException(EntityNotFoundException e) {
         logger.error("Handle entity not found exception: ", e);
 
         var errorDto = new ErrorResponseDTO(
@@ -46,11 +46,11 @@ public class GlobalErrorHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponseDTO> handlerGenericException(IllegalArgumentException e) {
+    public ResponseEntity<ErrorResponseDTO> handlerIllegalArgumentException(IllegalArgumentException e) {
         logger.error("Handle illegal argument exception: ", e);
 
         var errorDto = new ErrorResponseDTO(
-                "illegal argument",
+                "Illegal argument",
                 e.getMessage(),
                 LocalDateTime.now()
         );
