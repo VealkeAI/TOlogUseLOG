@@ -82,4 +82,15 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDomain(updatedUser);
     }
+
+    @Override
+    public void updateShitUTC(Long id, int shift) {
+
+        userRepository.findByTgId(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by telegram id: " + id)
+                );
+
+        userRepository.switchShiftUTC(id, shift);
+    }
 }

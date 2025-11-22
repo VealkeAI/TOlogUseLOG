@@ -10,4 +10,5 @@ public interface UserService {
     UserDTO getUserByTgId(Long id);
     void deleteUser(Long id);
     UserDTO updateUser(Long id, UserDTO userToUpdate);
+    void updateShitUTC(Long id, int shift);
 }
