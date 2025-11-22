@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             SET u.shiftUTC = :shift
             WHERE :tgId = u.tgId
             """)
-    int switchShiftUTC(@Param("tgId") Long tgId,
+    void switchShiftUTC(@Param("tgId") Long tgId,
                        @Param("shift") Integer shift);
 }

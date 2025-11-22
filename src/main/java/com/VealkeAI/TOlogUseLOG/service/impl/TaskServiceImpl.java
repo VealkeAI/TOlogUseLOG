@@ -10,7 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -25,11 +26,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO createTask(TaskDTO taskToCreate) {
 
+        var shift = taskRepository.getUserShiftUTC(taskToCreate.userId());
+
         if(taskToCreate.id() != null || taskToCreate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
         }
 
-        if(taskToCreate.deadline() != null && taskToCreate.deadline().isBefore(LocalDate.now())){
+        if(taskToCreate.deadline() != null && taskToCreate.deadline().isBefore(Instant.now().plus(shift, ChronoUnit.HOURS))) {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
@@ -46,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("ID and creation time should be empty");
         }
 
-        if(taskToUpdate.deadline() != null && taskToUpdate.deadline().isBefore(LocalDate.now())){
+        if(taskToUpdate.deadline() != null && taskToUpdate.deadline().isBefore(Instant.now())){
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 

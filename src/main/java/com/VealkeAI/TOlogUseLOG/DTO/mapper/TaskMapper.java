@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Component
 @AllArgsConstructor
@@ -33,7 +34,7 @@ public class TaskMapper {
         var user = userRepository.findByTgId(dto.userId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.userId()));
 
-        var creationTime = Instant.now();
+        var creationTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
 
         return new TaskEntity(
                 dto.id(),
