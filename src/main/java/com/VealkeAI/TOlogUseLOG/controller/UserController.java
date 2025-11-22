@@ -74,4 +74,15 @@ public class UserController {
                 .status(HttpStatus.ACCEPTED)
                 .body(updatedUser);
     }
+
+    @PutMapping("{id}/utc/{shift}")
+    public ResponseEntity<Void> setShiftUTC(@PathVariable Long id,
+                                            @PathVariable int shift) {
+
+        service.updateShitUTC(id, shift);
+
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .build();
+    }
 }
