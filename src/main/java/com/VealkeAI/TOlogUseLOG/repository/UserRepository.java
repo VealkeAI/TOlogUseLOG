@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Modifying
     @Transactional
     @Query("""
-            UPDATE u FROM
+            UPDATE UserEntity u
             SET u.shiftUTC = :shift
             WHERE :tgId = u.tgId
             """)

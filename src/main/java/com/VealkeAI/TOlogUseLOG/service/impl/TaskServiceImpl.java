@@ -26,7 +26,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO createTask(TaskDTO taskToCreate) {
 
-        var shift = taskRepository.getUserShiftUTC(taskToCreate.userId());
+        var shift = taskRepository.getUserShiftUTC(taskToCreate.userId())
+                .orElse(0);
 
         if(taskToCreate.id() != null || taskToCreate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
@@ -37,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
-        schedulerService.createJob(taskToCreate);
+        schedulerService.createJob(createdTask);
 
         return taskMapper.toDomain(createdTask);
     }

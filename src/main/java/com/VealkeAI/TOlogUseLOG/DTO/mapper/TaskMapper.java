@@ -32,7 +32,7 @@ public class TaskMapper {
     public TaskEntity toEntity(TaskDTO dto) {
 
         var user = userRepository.findByTgId(dto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + dto.userId()));
+                .orElseThrow(() -> new EntityNotFoundException("Not found user by telegram id: " + dto.userId()));
 
         var creationTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
 

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     @Query("""
@@ -16,7 +17,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     @Query("""
             SELECT u.shiftUTC FROM UserEntity u
-            WHERE u.id = :userId
+            WHERE u.tgId = :userId
             """)
-    Integer getUserShiftUTC(@Param("userId") Long userId);
+    Optional<Integer> getUserShiftUTC(@Param("userId") Long userId);
 }

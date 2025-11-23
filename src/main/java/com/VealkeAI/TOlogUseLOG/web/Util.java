@@ -1,12 +1,10 @@
 package com.VealkeAI.TOlogUseLOG.web;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.Date;
 
 public class Util {
-    public static Date toDate(LocalDate date) {
-        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    public static Date toDate(Instant date) {
+        return Date.from(date);
     }
 }

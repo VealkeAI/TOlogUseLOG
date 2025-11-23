@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.service.scheduler.RegisterJob;
 import lombok.AllArgsConstructor;
 import org.quartz.Scheduler;
@@ -17,14 +18,14 @@ public class SchedulerService {
 
     private final Scheduler scheduler;
 
-    public void createJob(TaskDTO task) {
+    public void createJob(TaskEntity task) {
         try {
             var detail = RegisterJob.buildJobDetail(task);
             var trigger = RegisterJob.buildTrigger(task);
 
             scheduler.scheduleJob(detail, trigger);
 
-            logger.info("created job for user with id: {}", task.id());
+            logger.info("created job for user with id: {}", task.getId());
         } catch (SchedulerException e) {
             logger.error(e.getMessage());
         }
