@@ -5,10 +5,28 @@ spring:
     url: jdbc:postgresql://localhost:5432/log
     username: postgres
     password: swiss18
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: MyScheduler
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            tablePrefix: QRTZ_
+            useProperties: false
+            isClustered: false
+
 server:
   address: 0.0.0.0
   port: 8080

@@ -43,7 +43,6 @@ public class SendMessageJob implements Job {
                 "description", description
         );
 
-        //TODO: add exception handler
         restTemple.postForObject(url, requestBody, String.class);
 
         logger.info("done job for user: {}", userId);
