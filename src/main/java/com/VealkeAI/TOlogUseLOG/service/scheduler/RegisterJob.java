@@ -1,6 +1,5 @@
 package com.VealkeAI.TOlogUseLOG.service.scheduler;
 
-import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.web.Util;
 import lombok.AllArgsConstructor;
