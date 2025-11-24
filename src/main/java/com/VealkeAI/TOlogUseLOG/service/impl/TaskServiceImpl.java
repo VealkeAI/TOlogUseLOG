@@ -38,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
-        schedulerService.createJob(createdTask);
+        schedulerService.createJob(createdTask, shift);
 
         return taskMapper.toDomain(createdTask);
     }

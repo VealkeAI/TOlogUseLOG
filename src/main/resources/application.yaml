@@ -11,21 +11,14 @@ spring:
       ddl-auto: update
     show-sql: true
 
-  quartz:
-    job-store-type: jdbc
-    jdbc:
-      initialize-schema: always
-    properties:
-      org:
-        quartz:
-          scheduler:
-            instanceName: MyScheduler
-          jobStore:
-            class: org.quartz.impl.jdbcjobstore.JobStoreTX
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
-            tablePrefix: QRTZ_
-            useProperties: false
-            isClustered: false
+jobrunr:
+  background-job-server:
+    enabled: true
+  dashboard:
+    enabled : true
+    port: 8000
+  database:
+    skip-create: false
 
 server:
   address: 0.0.0.0
