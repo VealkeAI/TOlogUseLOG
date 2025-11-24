@@ -25,18 +25,18 @@ public class SendMessageJob implements JobRequestHandler<JobRequest> {
 
     @Override
     public void run(JobRequest jobRequest) throws Exception {
-
-        job
-
-        Map<String, String> requestBody = Map.of(
-                "userId", tgId,
-                "name", name,
-                "description", description
-        );
-
-        logger.info("executing job");
-        restTemple.postForObject(url, requestBody, String.class);
-
-        logger.info("done job for user: {}", tgId);
+//
+//        job
+//
+//        Map<String, String> requestBody = Map.of(
+//                "userId", tgId,
+//                "name", name,
+//                "description", description
+//        );
+//
+//        logger.info("executing job");
+//        restTemple.postForObject(url, requestBody, String.class);
+//
+//        logger.info("done job for user: {}", tgId);
     }
 }
