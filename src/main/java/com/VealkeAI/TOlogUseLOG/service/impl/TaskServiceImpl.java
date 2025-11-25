@@ -6,6 +6,7 @@ import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.jobrunr.scheduling.ScheduleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,18 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
+        logger.info(taskToCreate.toString());
+
         var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
-        schedulerService.createJob(createdTask, shift);
+
+        if (createdTask.getDeadline() != null) {
+            try {
+                 schedulerService.createJob(createdTask, shift);
+            } catch (ScheduleException e) {
+                logger.error("failed to create task: {}", e.getMessage());
+                //TODO: в случае ошибки отправить запрос на сервер с предупреждением
+            }
+        }
 
         return taskMapper.toDomain(createdTask);
     }

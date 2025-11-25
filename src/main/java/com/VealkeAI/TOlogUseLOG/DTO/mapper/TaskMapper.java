@@ -3,6 +3,7 @@ package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
+import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,8 +34,11 @@ public class TaskMapper {
 
         var user = userRepository.findByTgId(dto.userId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by telegram id: " + dto.userId()));
-
         var creationTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
+
+        var priority = dto.priority() != null
+                ? dto.priority()
+                : PriorityStatus.DEFAULT;
 
         return new TaskEntity(
                 dto.id(),
@@ -43,7 +47,7 @@ public class TaskMapper {
                 dto.description(),
                 creationTime,
                 dto.deadline(),
-                dto.priority(),
+                priority,
                 dto.state()
         );
     }
