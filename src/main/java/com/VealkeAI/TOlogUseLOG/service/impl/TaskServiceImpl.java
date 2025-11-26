@@ -38,13 +38,11 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
-        logger.info(taskToCreate.toString());
-
         var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
 
         if (createdTask.getDeadline() != null) {
             try {
-                 schedulerService.createJob(createdTask, shift);
+                 schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), shift);
             } catch (ScheduleException e) {
                 logger.error("failed to create task: {}", e.getMessage());
                 //TODO: в случае ошибки отправить запрос на сервер с предупреждением

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Service
@@ -19,17 +20,13 @@ public class SchedulerService {
     private final SendMessageJob sendMessageJob;
 
 
-    public void createJob(TaskEntity task, Integer shift) {
-
-        var tgId = task.getUser().getTgId().toString();
-        var name = task.getName();
-        var description = task.getDescription();
+    public void createJob(Long id, Instant deadline , Integer shift) {
 
         try {
-            BackgroundJob.schedule(task.getDeadline().minus(shift, ChronoUnit.HOURS),
-                    () -> sendMessageJob.execute(tgId, name, description));
+            BackgroundJob.schedule(deadline.minus(shift, ChronoUnit.HOURS),
+                    () -> sendMessageJob.execute(id));
 
-            logger.info("created job for user with id: {}", task.getId());
+            logger.info("created job with id: {}", id);
         } catch (ScheduleException e) {
             logger.error(e.getMessage());
         }
