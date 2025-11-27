@@ -25,6 +25,8 @@ jobrunr:
 logging:
   file:
     name: springLog
+  jobs:
+    custom-backoff-retry-policy=15, 30, 60, 120
 
 server:
   address: 0.0.0.0
@@ -32,4 +34,6 @@ server:
 
 bot:
   url:
-    post: http://localhost:3000/sendMessage
+    address: localhost
+    port: 3000
+    post: http://${bot.url.address}:${bot.url.port}/sendMessage
