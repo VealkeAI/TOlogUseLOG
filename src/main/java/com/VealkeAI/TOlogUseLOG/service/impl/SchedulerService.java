@@ -1,7 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
-import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
-import com.VealkeAI.TOlogUseLOG.service.scheduler.SendMessageJob;
+import com.VealkeAI.TOlogUseLOG.service.schedulerJobs.SendMessageJob;
 import lombok.AllArgsConstructor;
 import org.jobrunr.scheduling.BackgroundJob;
 import org.jobrunr.scheduling.ScheduleException;
@@ -18,7 +17,6 @@ public class SchedulerService {
 
     private final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
     private final SendMessageJob sendMessageJob;
-
 
     public void createJob(Long id, Instant deadline , Integer shift) {
 

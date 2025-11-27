@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.service.scheduler;
+package com.VealkeAI.TOlogUseLOG.service.schedulerJobs;
 
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
