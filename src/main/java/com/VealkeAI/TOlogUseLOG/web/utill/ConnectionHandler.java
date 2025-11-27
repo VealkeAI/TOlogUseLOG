@@ -2,12 +2,10 @@ package com.VealkeAI.TOlogUseLOG.web.utill;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.jobrunr.scheduling.JobScheduler;
 import org.jobrunr.server.BackgroundJobServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -38,7 +36,12 @@ public class ConnectionHandler {
         scheduledExecutor.scheduleWithFixedDelay(this::isConnected, 0, 5, TimeUnit.SECONDS);
     }
 
-    //TODO: настороить отключение планировика
+   /* Attention!
+   This function for some reason does not stop the job execution
+   at startup if it failed to connect to an external service
+   at startup, but everything works stably if the connection
+   to the service was installed at startup */
+
     private void isConnected() {
         boolean isConnection = isConnectionAvailable();
         if (isConnection && !isSchedulerStarted.get()) {
