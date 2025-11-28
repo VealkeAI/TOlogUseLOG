@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface TaskService {
     TaskDTO createTask(TaskDTO taskToCreate);
     TaskDTO updateTask(Long id, TaskDTO taskToUpdate);
-    List<TaskDTO> getAllUserTask(Long userID);
+    List<TaskDTO> getTasksByFilter(TaskSearchFilterDTO filter);
     TaskDTO getTaskById(Long id);
     void deleteTask(Long id);
 }

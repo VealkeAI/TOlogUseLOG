@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.jobrunr.scheduling.ScheduleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -77,9 +79,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> getAllUserTask(Long userId) {
+    public List<TaskDTO> getTasksByFilter(TaskSearchFilterDTO filter) {
 
-        var tasks = taskRepository.getAllUserTask(userId);
+        int pageSize = filter.pageSize() != null
+                ? filter.pageSize()
+                : 5;
+        int pageNumber = filter.pageNumber() != null
+                ? filter.pageNumber()
+                : 0;
+
+        var pageable = Pageable
+                .ofSize(pageSize)
+                .withPage(pageNumber);
+
+        var tasks = taskRepository.getTasksByFilter(
+                filter.tgId(),
+                filter.priority(),
+                filter.state(),
+                pageable
+        );
 
         return tasks.stream().map(taskMapper::toDomain).toList();
     }

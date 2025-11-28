@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.controller;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,10 +47,10 @@ public class TaskController {
                 .body(updatedTask);
     }
 
-    @GetMapping("user/{id}")
-    public ResponseEntity<List<TaskDTO>> getAllUserTask(@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity<List<TaskDTO>> getTasksById(@RequestBody TaskSearchFilterDTO filterDTO) {
 
-        var taskList = service.getAllUserTask(id);
+        var taskList = service.getTasksByFilter(filterDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(taskList);
     }
