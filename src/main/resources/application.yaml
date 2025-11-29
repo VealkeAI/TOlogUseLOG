@@ -21,12 +21,12 @@ jobrunr:
     port: 8000
   database:
     skip-create: false
+  jobs:
+    custom-backoff-retry-policy=15, 30, 60, 120
 
 logging:
   file:
     name: springLog
-  jobs:
-    custom-backoff-retry-policy=15, 30, 60, 120
 
 server:
   address: 0.0.0.0
