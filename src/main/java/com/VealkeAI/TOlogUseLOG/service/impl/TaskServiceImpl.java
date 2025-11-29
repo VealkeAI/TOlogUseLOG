@@ -55,7 +55,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDTO updateTask(Long id, TaskDTO taskToUpdate) {
+    public TaskDTO updateTask(Long taskId, TaskDTO taskToUpdate) {
 
         if(taskToUpdate.id() != null || taskToUpdate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
@@ -65,15 +65,15 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
-        taskRepository.findById(id)
+        taskRepository.findById(taskId)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Not found task by id: " + id)
+                        () -> new EntityNotFoundException("Not found task by id: " + taskId)
                 );
 
-        var userToSave = taskMapper.toEntity(taskToUpdate);
-        userToSave.setId(id);
+        var taskToSave = taskMapper.toEntity(taskToUpdate);
+        taskToSave.setId(taskId);
 
-        var updatedTask = taskRepository.save(userToSave);
+        var updatedTask = taskRepository.save(taskToSave);
 
         return taskMapper.toDomain(updatedTask);
     }
