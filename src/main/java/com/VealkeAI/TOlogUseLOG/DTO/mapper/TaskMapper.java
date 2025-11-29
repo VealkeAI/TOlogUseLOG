@@ -4,6 +4,7 @@ import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
+import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,9 @@ public class TaskMapper {
         var priority = dto.priority() != null
                 ? dto.priority()
                 : PriorityStatus.DEFAULT;
+        var state = dto.state() != null
+                ? dto.state()
+                : State.DO;
 
         return new TaskEntity(
                 dto.id(),
@@ -48,7 +52,7 @@ public class TaskMapper {
                 creationTime,
                 dto.deadline(),
                 priority,
-                dto.state()
+                state
         );
     }
 }

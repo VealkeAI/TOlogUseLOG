@@ -35,6 +35,8 @@ public class SendMessageJob {
 
         restTemple.postForObject(url, requestBody, String.class);
 
+
+
         logger.info("done job with id: {}", taskId);
     }
 }
