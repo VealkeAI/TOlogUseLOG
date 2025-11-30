@@ -32,27 +32,13 @@ public class TaskMapper {
     }
 
     public TaskEntity toEntity(TaskDTO dto) {
-
-        var user = userRepository.findByTgId(dto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("Not found user by telegram id: " + dto.userId()));
-        var creationTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
-
-        var priority = dto.priority() != null
-                ? dto.priority()
-                : PriorityStatus.DEFAULT;
-        var state = dto.state() != null
-                ? dto.state()
-                : State.DO;
-
         return new TaskEntity(
                 dto.id(),
-                user,
                 dto.name(),
                 dto.description(),
-                creationTime,
                 dto.deadline(),
-                priority,
-                state
+                dto.priority(),
+                dto.state()
         );
     }
 }

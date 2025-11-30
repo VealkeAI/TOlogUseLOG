@@ -52,4 +52,18 @@ public class TaskEntity {
     private State state;
 
     public TaskEntity() {}
+
+    public TaskEntity(Long id,
+                      String name,
+                      String description,
+                      Instant deadline,
+                      PriorityStatus priority,
+                      State state) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.deadline = deadline;
+        this.priority = priority;
+        this.state = state;
+    }
 }

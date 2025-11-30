@@ -4,7 +4,10 @@ import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
+import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
+import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
+import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.jobrunr.scheduling.ScheduleException;
@@ -23,28 +26,50 @@ public class TaskServiceImpl implements TaskService {
 
     private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
     private final TaskMapper taskMapper;
     private final SchedulerService schedulerService;
 
     @Override
     public TaskDTO createTask(TaskDTO taskToCreate) {
 
-        var shift = taskRepository.getUserShiftUTC(taskToCreate.userId())
-                .orElse(0);
-
         if(taskToCreate.id() != null || taskToCreate.creationTime() != null) {
             throw new IllegalArgumentException("ID and creation time should be empty");
         }
 
-        if(taskToCreate.deadline() != null && taskToCreate.deadline().isBefore(Instant.now().plus(shift, ChronoUnit.HOURS))) {
+        var user = userRepository.findByTgId(taskToCreate.userId())
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found user by telegram id: " + taskToCreate.userId())
+                );
+
+        var currentTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
+
+
+        if(
+                taskToCreate.deadline() != null &&
+                taskToCreate
+                        .deadline()
+                        .isBefore(currentTime))
+        {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
-        var createdTask = taskRepository.save(taskMapper.toEntity(taskToCreate));
+        var taskToSave = taskMapper.toEntity(taskToCreate);
+
+        taskToSave.setUser(user);
+        taskToSave.setCreationTime(currentTime);
+        taskToSave.setPriority(taskToSave.getPriority() != null
+                    ? taskToSave.getPriority()
+                    : PriorityStatus.DEFAULT);
+        taskToSave.setState(taskToSave.getState() != null
+                ? taskToSave.getState()
+                : State.DO);
+
+        var createdTask = taskRepository.save(taskToSave);
 
         if (createdTask.getDeadline() != null) {
             try {
-                 schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), shift);
+                 schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), user.getShiftUTC());
             } catch (ScheduleException e) {
                 logger.error("failed to create task: {}", e.getMessage());
                 //TODO: в случае ошибки отправить запрос на сервер с предупреждением
@@ -65,13 +90,15 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
 
-        taskRepository.findById(taskId)
+        var oldTask = taskRepository.findById(taskId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found task by id: " + taskId)
                 );
 
         var taskToSave = taskMapper.toEntity(taskToUpdate);
         taskToSave.setId(taskId);
+        taskToSave.setUser(oldTask.getUser());
+        taskToSave.setCreationTime(oldTask.getCreationTime());
 
         var updatedTask = taskRepository.save(taskToSave);
 
