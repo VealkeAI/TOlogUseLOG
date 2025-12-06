@@ -120,7 +120,7 @@ public class TaskServiceImpl implements TaskService {
                 .withPage(pageNumber);
 
         var tasks = taskRepository.getTasksByFilter(
-                filter.tgId(),
+                Long.parseLong(filter.tgId()),
                 filter.priority(),
                 filter.state(),
                 pageable
