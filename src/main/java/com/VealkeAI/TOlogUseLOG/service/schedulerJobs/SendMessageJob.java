@@ -1,6 +1,8 @@
 package com.VealkeAI.TOlogUseLOG.service.schedulerJobs;
 
+import com.VealkeAI.TOlogUseLOG.DTO.MessageDTO;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
+import com.VealkeAI.TOlogUseLOG.service.impl.NoteKafkaProducer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ public class SendMessageJob {
     private final Logger logger = LoggerFactory.getLogger(SendMessageJob.class);
     private final RestTemplate restTemple;
     private final TaskRepository repository;
+    private final NoteKafkaProducer kafkaProducer;
 
     @Value("${bot.url.post}")
     private String url;
@@ -27,14 +30,21 @@ public class SendMessageJob {
         var task = repository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Not found task by id " + taskId));
 
-        Map<String, String> requestBody = Map.of(
-                "userId", task.getUser().getTgId().toString(),
-                "name", task.getName(),
-                "description", task.getDescription()
+//        Map<String, String> requestBody = Map.of(
+//                "userId", task.getUser().getTgId().toString(),
+//                "name", task.getName(),
+//                "description", task.getDescription()
+//        );
+
+        var requestBody = new MessageDTO(
+                task.getId().toString(),
+                task.getUser().getTgId().toString(),
+                task.getName(),
+                task.getDescription()
         );
 
-        restTemple.postForObject(url, requestBody, String.class);
-
+//        restTemple.postForObject(url, requestBody, String.class);
+        kafkaProducer.sendOrderToKafka(requestBody);
 
 
         logger.info("done job with id: {}", taskId);

@@ -1,6 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.config;
 
-import com.VealkeAI.TOlogUseLOG.service.schedulerJobs.SendMessageJob;
+import com.VealkeAI.TOlogUseLOG.DTO.MessageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -27,11 +27,11 @@ public class AppConfig {
      the serialization method is obsolete in kafka 4.0.0 and will be changed later
      */
     @Bean
-    public ProducerFactory<String, SendMessageJob> producerFactory(ObjectMapper objectMapper) {
+    public ProducerFactory<String, MessageDTO> producerFactory(ObjectMapper objectMapper) {
         Map<String, Object> configProperties = new HashMap<>();
         configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        JsonSerializer<SendMessageJob> serializer = new JsonSerializer<>(objectMapper);
+        JsonSerializer<MessageDTO> serializer = new JsonSerializer<>(objectMapper);
         serializer.setAddTypeInfo(false);
 
         return new DefaultKafkaProducerFactory<>(
@@ -42,8 +42,8 @@ public class AppConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, SendMessageJob> kafkaTemplate(
-            ProducerFactory<String, SendMessageJob> producerFactory
+    public KafkaTemplate<String, MessageDTO> kafkaTemplate(
+            ProducerFactory<String, MessageDTO> producerFactory
     ) {
         return new KafkaTemplate<>(producerFactory);
     }
