@@ -72,7 +72,6 @@ public class TaskServiceImpl implements TaskService {
                  schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), user.getShiftUTC());
             } catch (ScheduleException e) {
                 logger.error("failed to create task: {}", e.getMessage());
-                //TODO: в случае ошибки отправить запрос на сервер с предупреждением
             }
         }
 
