@@ -30,12 +30,6 @@ public class SendMessageJob {
         var task = repository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Not found task by id " + taskId));
 
-//        Map<String, String> requestBody = Map.of(
-//                "userId", task.getUser().getTgId().toString(),
-//                "name", task.getName(),
-//                "description", task.getDescription()
-//        );
-
         var requestBody = new MessageDTO(
                 task.getId().toString(),
                 task.getUser().getTgId().toString(),
@@ -43,9 +37,7 @@ public class SendMessageJob {
                 task.getDescription()
         );
 
-//        restTemple.postForObject(url, requestBody, String.class);
         kafkaProducer.sendOrderToKafka(requestBody);
-
 
         logger.info("done job with id: {}", taskId);
     }

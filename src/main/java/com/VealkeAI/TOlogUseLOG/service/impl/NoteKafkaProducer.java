@@ -15,7 +15,7 @@ public class NoteKafkaProducer {
     private final Logger logger = LoggerFactory.getLogger(NoteKafkaProducer.class);
 
     public void sendOrderToKafka(MessageDTO notification) {
-        kafkaTemplate.send("notifications", notification.tgId(), notification);
+        kafkaTemplate.send("notifications", notification.id(), notification);
 
         logger.info("sent message to kafka");
     }
