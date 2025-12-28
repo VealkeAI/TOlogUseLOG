@@ -22,10 +22,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("ID should be empty");
         }
 
-        if (userRepository.findByTgId(userToCreate.tgId())
-                .orElse(null) == null)
+        if (userRepository.findByTgId(userToCreate.tgId()).isEmpty())
         {
-            userRepository.save(userMapper.toEntity(userToCreate));
+            var userToSave = userMapper.toEntity(userToCreate);
+            userToSave.setShiftUTC(0);
+            userRepository.save(userToSave);
         }
 
     }

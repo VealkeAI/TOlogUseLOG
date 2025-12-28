@@ -7,6 +7,9 @@ import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Component
 @AllArgsConstructor
 public class UserMapper {
@@ -15,13 +18,13 @@ public class UserMapper {
 
     public UserDTO toDomain(UserEntity entity) {
 
-        var taskList = entity.getListOfTask() != null
+        List<Long> taskList = entity.getListOfTask() != null
                 ? entity
                 .getListOfTask()
                 .stream()
                 .map(TaskEntity::getId)
                 .toList()
-                : null;
+                : List.of();
 
         return new UserDTO(
                 entity.getId(),
@@ -33,14 +36,10 @@ public class UserMapper {
 
     public UserEntity toEntity(UserDTO dto) {
 
-        var taskList = dto.taskIdList() != null
-                ? dto
-                .taskIdList()
-                .stream()
-                .map(id -> taskRepository.findById(id)
-                        .orElse(null)
-                ).toList()
-                : null;
+        var taskList = Optional
+                .ofNullable(dto.taskIdList())
+                .map(taskRepository::findAllById)
+                .orElse(List.of());
 
         return new UserEntity(
                 dto.id(),

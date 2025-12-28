@@ -2,9 +2,9 @@ spring:
   application:
     name: TOlogUseLOG
   datasource:
-    url: jdbc:postgresql://localhost:5432/log
-    username: postgres
-    password: swiss18
+    url: jdbc:postgresql://localhost:5433/log_db
+    username: log
+    password: t0l0g
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

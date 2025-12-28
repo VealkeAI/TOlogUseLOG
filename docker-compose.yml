@@ -1,7 +1,34 @@
 services:
+#  backend:
+#    image: tolog_backend
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    build:
+#      context: .
+#    container_name: ToLog
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/log_db
+#      SPRING_DATASOURCE_USERNAME: log
+#      SPRING_DATASOURCE_PASSWORD: T0l@gU$e&&1
+#    depends_on:
+#      - broker
+#      - db
+
+  logdb:
+    image: postgres:17
+    container_name: logdb
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=log
+      - POSTGRES_PASSWORD=t0l0g
+      - POSTGRES_DB=log_db
   broker:
     image: apache/kafka:latest
     container_name: broker
+    restart: always
     ports:
       - "9092:9092"
     environment:
@@ -16,3 +43,4 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    
