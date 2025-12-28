@@ -24,9 +24,7 @@ public class UserServiceImpl implements UserService {
 
         if (userRepository.findByTgId(userToCreate.tgId()).isEmpty())
         {
-            var userToSave = userMapper.toEntity(userToCreate);
-            userToSave.setShiftUTC(0);
-            userRepository.save(userToSave);
+            userRepository.save(userMapper.toEntity(userToCreate));
         }
 
     }

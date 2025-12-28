@@ -41,11 +41,13 @@ public class UserMapper {
                 .map(taskRepository::findAllById)
                 .orElse(List.of());
 
+        var shift = Optional.ofNullable(dto.shiftUTC()).orElse(0);
+
         return new UserEntity(
                 dto.id(),
                 dto.tgId(),
                 taskList,
-                dto.shiftUTC()
+                shift
         );
     }
 }
