@@ -2,6 +2,7 @@ package com.VealkeAI.TOlogUseLOG.service.impl;
 
 import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
@@ -105,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> getTasksByFilter(TaskSearchFilterDTO filter) {
+    public TaskWithPageInfoDTO getTasksByFilter(TaskSearchFilterDTO filter) {
 
         int pageSize = filter.pageSize() != null
                 ? filter.pageSize()
@@ -118,14 +119,24 @@ public class TaskServiceImpl implements TaskService {
                 .ofSize(pageSize)
                 .withPage(pageNumber);
 
+        var tgId =  filter.tgId() != null
+                ? Long.parseLong(filter.tgId())
+                : null;
+
         var tasks = taskRepository.getTasksByFilter(
-                Long.parseLong(filter.tgId()),
+                tgId,
                 filter.priority(),
                 filter.state(),
                 pageable
         );
 
-        return tasks.stream().map(taskMapper::toDomain).toList();
+        var taskDtoList = tasks.stream().map(taskMapper::toDomain).toList();
+
+        return new TaskWithPageInfoDTO(
+                tasks.getTotalPages(),
+                (int) tasks.getTotalElements(),
+                taskDtoList
+        );
     }
 
     @Override
