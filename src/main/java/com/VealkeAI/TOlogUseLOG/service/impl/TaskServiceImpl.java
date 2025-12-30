@@ -160,4 +160,17 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.delete(userToDelete);
     }
+
+    @Override
+    public void changeTaskPriority(Long id, PriorityStatus priority) {
+
+        var task = taskRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found task by id: " + id)
+                );
+
+        task.setPriority(priority);
+
+        taskRepository.save(task);
+    }
 }
