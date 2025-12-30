@@ -3,6 +3,7 @@ package com.VealkeAI.TOlogUseLOG.repository;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,11 +21,11 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     @Query("""
             SELECT t FROM TaskEntity t
-                WHERE t.user.tgId = :tgId
+                WHERE (:tgId IS NULL OR t.user.tgId = :tgId)
                 AND (:priority IS NULL OR t.priority = :priority)
                 AND (:state IS NULL OR t.state = :state)
             """)
-    List<TaskEntity> getTasksByFilter(@Param("tgId") Long tgId,
+    Page<TaskEntity> getTasksByFilter(@Param("tgId") Long tgId,
                                       @Param("priority") PriorityStatus priority,
                                       @Param("state") State state,
                                       Pageable pageable
