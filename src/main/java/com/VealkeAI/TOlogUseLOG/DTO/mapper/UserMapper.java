@@ -36,17 +36,11 @@ public class UserMapper {
 
     public UserEntity toEntity(UserDTO dto) {
 
-        var taskList = Optional
-                .ofNullable(dto.taskIdList())
-                .map(taskRepository::findAllById)
-                .orElse(List.of());
-
         var shift = Optional.ofNullable(dto.shiftUTC()).orElse(0);
 
         return new UserEntity(
                 dto.id(),
                 dto.tgId(),
-                taskList,
                 shift
         );
     }

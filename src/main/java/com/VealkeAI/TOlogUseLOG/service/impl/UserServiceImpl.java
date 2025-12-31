@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
         {
             userRepository.save(userMapper.toEntity(userToCreate));
         }
-
     }
 
     @Override
@@ -65,7 +64,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userToUpdate) {
 
-        userRepository.findById(id)
+        var oldUser = userRepository.findById(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found user by id: " + id)
                 );
@@ -76,6 +75,7 @@ public class UserServiceImpl implements UserService {
 
         var userToSave = userMapper.toEntity(userToUpdate);
         userToSave.setId(id);
+        userToSave.setListOfTask(oldUser.getListOfTask());
 
         var updatedUser = userRepository.save(userToSave);
 

@@ -32,4 +32,10 @@ public class UserEntity {
     private Integer shiftUTC;
 
     public UserEntity() {}
+
+    public UserEntity(Long id, Long tgId, Integer shiftUTC) {
+        this.id = id;
+        this.tgId = tgId;
+        this.shiftUTC = shiftUTC;
+    }
 }
