@@ -3,7 +3,6 @@ package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 import com.VealkeAI.TOlogUseLOG.DTO.UserDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.entity.UserEntity;
-import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,6 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class UserMapper {
-
-    private final TaskRepository taskRepository;
 
     public UserDTO toDomain(UserEntity entity) {
 
