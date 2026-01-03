@@ -94,4 +94,14 @@ public class TaskController {
                 .status(HttpStatus.OK)
                 .build();
     }
+
+    @PatchMapping("state/{id}/{state}")
+    public ResponseEntity<Void> updateTaskState(@PathVariable Long id,
+                                                @PathVariable State state) {
+        service.changeTaskState(id, state);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
