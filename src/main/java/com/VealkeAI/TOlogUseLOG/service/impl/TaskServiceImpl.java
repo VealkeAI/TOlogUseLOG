@@ -173,4 +173,17 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.save(task);
     }
+
+    @Override
+    public void changeTaskState(Long id, State state) {
+
+        var task = taskRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found task by id: " + id)
+                );
+
+        task.setState(state);
+
+        taskRepository.save(task);
+    }
 }
