@@ -1,13 +1,10 @@
-package com.VealkeAI.TOlogUseLOG.DTO;
+package com.VealkeAI.TOlogUseLOG.DTO.user;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 import java.util.List;
 
-public record UserDTO(
-        @Null
-        Long id,
+public record ObtainedUserDTO(
         @NotNull
         Long tgId,
         List<Long> taskIdList,

@@ -1,7 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.ObtainedTaskDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.ObtainedTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

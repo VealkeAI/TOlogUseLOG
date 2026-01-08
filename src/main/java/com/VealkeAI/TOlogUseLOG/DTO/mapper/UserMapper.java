@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 
-import com.VealkeAI.TOlogUseLOG.DTO.UserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.ObtainedUserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.UserDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import com.VealkeAI.TOlogUseLOG.entity.UserEntity;
 import lombok.AllArgsConstructor;
@@ -40,5 +41,17 @@ public class UserMapper {
                 dto.tgId(),
                 shift
         );
+    }
+
+    public UserEntity toEntity(ObtainedUserDTO dto) {
+
+        var entity = new UserEntity();
+        var shift = Optional.ofNullable(dto.shiftUTC()).orElse(0);
+
+        entity.setTgId(dto.tgId());
+        entity.setShiftUTC(shift);
+        entity.setListOfTask(entity.getListOfTask());
+
+        return entity;
     }
 }

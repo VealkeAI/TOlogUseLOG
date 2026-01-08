@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.DTO.taskDto;
+package com.VealkeAI.TOlogUseLOG.DTO.task;
 
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
