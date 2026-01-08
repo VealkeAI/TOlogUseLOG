@@ -1,5 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.DTO.mapper;
 
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.CreateTaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.TaskEntity;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,16 @@ public class TaskMapper {
                 dto.priority(),
                 dto.state()
         );
+    }
+
+    public TaskEntity toEntity(CreateTaskDTO dto) {
+
+        var taskEntity = new TaskEntity();
+        taskEntity.setName(dto.name());
+        taskEntity.setDescription(dto.description());
+        taskEntity.setDeadline(dto.deadline());
+        taskEntity.setPriority(dto.priority());
+
+        return taskEntity;
     }
 }

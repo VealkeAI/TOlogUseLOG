@@ -1,12 +1,14 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
-import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.TaskWithPageInfoDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.CreateTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskSearchFilterDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
+import com.VealkeAI.TOlogUseLOG.web.Validation;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,10 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -30,13 +32,11 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskMapper taskMapper;
     private final SchedulerService schedulerService;
+    private final Validation validation;
 
     @Override
-    public TaskDTO createTask(TaskDTO taskToCreate) {
-
-        if(taskToCreate.id() != null || taskToCreate.creationTime() != null) {
-            throw new IllegalArgumentException("ID and creation time should be empty");
-        }
+    @Transactional
+    public TaskDTO createTask(CreateTaskDTO taskToCreate) {
 
         var user = userRepository.findByTgId(taskToCreate.userId())
                 .orElseThrow(
@@ -45,15 +45,7 @@ public class TaskServiceImpl implements TaskService {
 
         var currentTime = Instant.now().plus(user.getShiftUTC(), ChronoUnit.HOURS);
 
-
-        if(
-                taskToCreate.deadline() != null &&
-                taskToCreate
-                        .deadline()
-                        .isBefore(currentTime))
-        {
-            throw new IllegalArgumentException("Deadline cannot start in the past");
-        }
+        validation.validateTask(taskToCreate, currentTime);
 
         var taskToSave = taskMapper.toEntity(taskToCreate);
 
@@ -69,12 +61,10 @@ public class TaskServiceImpl implements TaskService {
         var createdTask = taskRepository.save(taskToSave);
 
         if (createdTask.getDeadline() != null) {
-            try {
-                 schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), user.getShiftUTC());
-            } catch (ScheduleException e) {
-                logger.error("failed to create task: {}", e.getMessage());
-            }
+            schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), user.getShiftUTC());
         }
+
+        logger.info("Created task with id: {}", createdTask.getId());
 
         return taskMapper.toDomain(createdTask);
     }

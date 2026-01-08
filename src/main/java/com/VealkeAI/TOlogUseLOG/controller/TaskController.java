@@ -1,8 +1,9 @@
 package com.VealkeAI.TOlogUseLOG.controller;
 
-import com.VealkeAI.TOlogUseLOG.DTO.TaskDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.TaskSearchFilterDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.TaskWithPageInfoDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.CreateTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskSearchFilterDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
@@ -32,7 +33,7 @@ public class TaskController {
     private final TaskService service;
 
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO task) {
+    public ResponseEntity<TaskDTO> createTask(@RequestBody CreateTaskDTO task) {
 
         var createdTask = service.createTask(task);
 
