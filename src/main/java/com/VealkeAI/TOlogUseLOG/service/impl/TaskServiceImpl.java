@@ -145,6 +145,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void changeTaskPriority(Long id, PriorityStatus priority) {
 
         var task = taskRepository.findById(id)
@@ -158,6 +159,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void changeTaskState(Long id, State state) {
 
         var task = taskRepository.findById(id)
