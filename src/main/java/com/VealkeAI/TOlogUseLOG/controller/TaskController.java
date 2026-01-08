@@ -1,6 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.controller;
 
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.CreateTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.ObtainedTaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskWithPageInfoDTO;
@@ -33,7 +33,7 @@ public class TaskController {
     private final TaskService service;
 
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody CreateTaskDTO task) {
+    public ResponseEntity<TaskDTO> createTask(@RequestBody ObtainedTaskDTO task) {
 
         var createdTask = service.createTask(task);
 
@@ -44,7 +44,7 @@ public class TaskController {
 
     @PutMapping("{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id,
-                                              @RequestBody TaskDTO task) {
+                                              @RequestBody ObtainedTaskDTO task) {
 
         var updatedTask = service.updateTask(id, task);
 

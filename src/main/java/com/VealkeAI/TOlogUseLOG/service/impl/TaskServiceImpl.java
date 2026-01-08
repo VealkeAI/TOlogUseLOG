@@ -1,6 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.CreateTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.taskDto.ObtainedTaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskWithPageInfoDTO;
@@ -13,7 +13,6 @@ import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.jobrunr.scheduling.ScheduleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDTO createTask(CreateTaskDTO taskToCreate) {
+    public TaskDTO createTask(ObtainedTaskDTO taskToCreate) {
 
         var user = userRepository.findByTgId(taskToCreate.userId())
                 .orElseThrow(
@@ -70,15 +69,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDTO updateTask(Long taskId, TaskDTO taskToUpdate) {
+    public TaskDTO updateTask(Long taskId, ObtainedTaskDTO taskToUpdate) {
 
-        if(taskToUpdate.id() != null || taskToUpdate.creationTime() != null) {
-            throw new IllegalArgumentException("ID and creation time should be empty");
-        }
-
-        if(taskToUpdate.deadline() != null && taskToUpdate.deadline().isBefore(Instant.now())){
-            throw new IllegalArgumentException("Deadline cannot start in the past");
-        }
+        validation.validateTask(taskToUpdate);
 
         var oldTask = taskRepository.findById(taskId)
                 .orElseThrow(
