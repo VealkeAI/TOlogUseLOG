@@ -1,6 +1,6 @@
 package com.VealkeAI.TOlogUseLOG.web;
 
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.ObtainedTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.ObtainedTaskDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

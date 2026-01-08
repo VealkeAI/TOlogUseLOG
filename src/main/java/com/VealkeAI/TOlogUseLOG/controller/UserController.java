@@ -1,6 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.controller;
 
-import com.VealkeAI.TOlogUseLOG.DTO.UserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.ObtainedUserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.UserDTO;
 import com.VealkeAI.TOlogUseLOG.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<Void> createUser(@RequestBody ObtainedUserDTO user) {
 
         service.createUser(user);
 
@@ -67,7 +68,7 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
-                                              @RequestBody UserDTO user) {
+                                              @RequestBody ObtainedUserDTO user) {
 
         var updatedUser = service.updateUser(id, user);
 

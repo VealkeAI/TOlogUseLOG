@@ -1,9 +1,9 @@
 package com.VealkeAI.TOlogUseLOG.service;
 
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.ObtainedTaskDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskSearchFilterDTO;
-import com.VealkeAI.TOlogUseLOG.DTO.taskDto.TaskWithPageInfoDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.ObtainedTaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.TaskDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.TaskSearchFilterDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import org.springframework.stereotype.Service;

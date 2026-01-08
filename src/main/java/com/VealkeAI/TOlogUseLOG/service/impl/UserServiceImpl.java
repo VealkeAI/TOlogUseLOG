@@ -1,12 +1,14 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
-import com.VealkeAI.TOlogUseLOG.DTO.UserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.ObtainedUserDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.user.UserDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.UserMapper;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -16,11 +18,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public void createUser(UserDTO userToCreate) {
-
-        if (userToCreate.id() != null) {
-            throw new IllegalArgumentException("ID should be empty");
-        }
+    @Transactional
+    public void createUser(ObtainedUserDTO userToCreate) {
 
         if (userRepository.findByTgId(userToCreate.tgId()).isEmpty())
         {
@@ -51,6 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
 
         var user = userRepository.findById(id)
@@ -62,16 +62,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserDTO userToUpdate) {
+    @Transactional
+    @Deprecated
+    public UserDTO updateUser(Long id, ObtainedUserDTO userToUpdate) {
 
         var oldUser = userRepository.findById(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found user by id: " + id)
                 );
-
-        if (userToUpdate.id() != null) {
-            throw new IllegalArgumentException("ID should be empty");
-        }
 
         var userToSave = userMapper.toEntity(userToUpdate);
         userToSave.setId(id);
@@ -83,6 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateShitUTC(Long id, int shift) {
 
         userRepository.findByTgId(id)
