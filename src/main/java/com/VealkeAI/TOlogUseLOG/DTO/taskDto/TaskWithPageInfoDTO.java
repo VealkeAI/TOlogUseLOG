@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.DTO;
+package com.VealkeAI.TOlogUseLOG.DTO.taskDto;
 
 import jakarta.validation.constraints.Null;
 

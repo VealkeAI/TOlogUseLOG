@@ -1,27 +1,20 @@
-package com.VealkeAI.TOlogUseLOG.DTO;
+package com.VealkeAI.TOlogUseLOG.DTO.taskDto;
 
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 import java.time.Instant;
 
-public record TaskDTO (
-        @Null
-        Long id,
+public record CreateTaskDTO (
         @NotNull
         Long userId,
         @NotNull
         String name,
         String description,
-        @Null
-        Instant creationTime,
         @FutureOrPresent
         Instant deadline,
-        PriorityStatus priority,
-        State state
-
-) {
+        PriorityStatus priority
+){
 }
