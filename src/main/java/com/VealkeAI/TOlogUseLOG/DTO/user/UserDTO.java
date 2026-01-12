@@ -12,5 +12,5 @@ public record UserDTO(
         Long tgId,
         List<Long> taskIdList,
         Integer shiftUTC
-) {
+) implements User {
 }
