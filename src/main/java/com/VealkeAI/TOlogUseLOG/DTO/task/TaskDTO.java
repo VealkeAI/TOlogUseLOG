@@ -23,5 +23,5 @@ public record TaskDTO (
         PriorityStatus priority,
         State state
 
-) {
+) implements Task{
 }

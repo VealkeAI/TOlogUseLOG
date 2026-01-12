@@ -15,5 +15,5 @@ public record ObtainedTaskDTO(
         @FutureOrPresent
         Instant deadline,
         PriorityStatus priority
-){
+) implements Task{
 }

@@ -71,12 +71,18 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO updateTask(Long taskId, ObtainedTaskDTO taskToUpdate) {
 
-        validation.validateTask(taskToUpdate);
 
         var oldTask = taskRepository.findById(taskId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found task by id: " + taskId)
                 );
+
+        var currentTime = Instant.now().plus(
+                oldTask.getUser().getShiftUTC(),
+                ChronoUnit.HOURS
+        );
+
+        validation.validateTask(taskToUpdate, currentTime);
 
         var taskToSave = taskMapper.toEntity(taskToUpdate);
         taskToSave.setId(taskId);
