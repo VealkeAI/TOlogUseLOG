@@ -63,32 +63,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @Deprecated
-    public UserDTO updateUser(Long id, ObtainedUserDTO userToUpdate) {
-
-        var oldUser = userRepository.findById(id)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Not found user by id: " + id)
-                );
-
-        var userToSave = userMapper.toEntity(userToUpdate);
-        userToSave.setId(id);
-        userToSave.setListOfTask(oldUser.getListOfTask());
-
-        var updatedUser = userRepository.save(userToSave);
-
-        return userMapper.toDomain(updatedUser);
-    }
-
-    @Override
-    @Transactional
     public void updateShitUTC(Long id, int shift) {
 
-        userRepository.findByTgId(id)
+        var user = userRepository.findByTgId(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found user by telegram id: " + id)
                 );
 
-        userRepository.switchShiftUTC(id, shift);
+        user.setShiftUTC(shift);
     }
 }

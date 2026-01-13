@@ -66,17 +66,6 @@ public class UserController {
                 .build();
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
-                                              @RequestBody ObtainedUserDTO user) {
-
-        var updatedUser = service.updateUser(id, user);
-
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body(updatedUser);
-    }
-
     @PutMapping("{id}/utc/{shift}")
     public ResponseEntity<Void> setShiftUTC(@PathVariable Long id,
                                             @PathVariable int shift) {
