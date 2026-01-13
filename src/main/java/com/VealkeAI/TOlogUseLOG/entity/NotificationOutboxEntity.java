@@ -21,6 +21,7 @@ public class NotificationOutboxEntity {
     private Long taskId;
     private Instant deadline;
     private Integer shift;
+    private Boolean isLoaded = false;
 
     public NotificationOutboxEntity() {}
 
