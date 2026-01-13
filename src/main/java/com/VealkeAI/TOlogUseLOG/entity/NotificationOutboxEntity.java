@@ -23,4 +23,10 @@ public class NotificationOutboxEntity {
     private Integer shift;
 
     public NotificationOutboxEntity() {}
+
+    public NotificationOutboxEntity(Long taskId, Instant deadline, Integer shift) {
+        this.taskId = taskId;
+        this.deadline = deadline;
+        this.shift = shift;
+    }
 }

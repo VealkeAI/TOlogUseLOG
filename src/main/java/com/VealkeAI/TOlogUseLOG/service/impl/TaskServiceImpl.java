@@ -6,6 +6,8 @@ import com.VealkeAI.TOlogUseLOG.DTO.task.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.DTO.task.UpdateTaskDTO;
+import com.VealkeAI.TOlogUseLOG.entity.NotificationOutboxEntity;
+import com.VealkeAI.TOlogUseLOG.repository.NotificationOutboxRepository;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
@@ -30,6 +32,7 @@ public class TaskServiceImpl implements TaskService {
     private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final NotificationOutboxRepository notificationOutboxRepository;
     private final TaskMapper taskMapper;
     private final SchedulerService schedulerService;
     private final Validation validation;
@@ -61,7 +64,12 @@ public class TaskServiceImpl implements TaskService {
         var createdTask = taskRepository.save(taskToSave);
 
         if (createdTask.getDeadline() != null) {
-            schedulerService.createJob(createdTask.getId(), createdTask.getDeadline(), user.getShiftUTC());
+            var notification = new NotificationOutboxEntity(
+                    createdTask.getId(),
+                    createdTask.getDeadline(),
+                    user.getShiftUTC()
+            );
+            notificationOutboxRepository.save(notification);
         }
 
         logger.info("Created task with id: {}", createdTask.getId());
