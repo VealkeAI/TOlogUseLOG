@@ -4,6 +4,7 @@ import com.VealkeAI.TOlogUseLOG.DTO.task.ObtainedTaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskWithPageInfoDTO;
+import com.VealkeAI.TOlogUseLOG.DTO.task.UpdateTaskDTO;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
 import com.VealkeAI.TOlogUseLOG.web.enums.PriorityStatus;
 import com.VealkeAI.TOlogUseLOG.web.enums.State;
@@ -44,7 +45,7 @@ public class TaskController {
 
     @PutMapping("{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id,
-                                              @RequestBody ObtainedTaskDTO task) {
+                                              @RequestBody UpdateTaskDTO task) {
 
         var updatedTask = service.updateTask(id, task);
 

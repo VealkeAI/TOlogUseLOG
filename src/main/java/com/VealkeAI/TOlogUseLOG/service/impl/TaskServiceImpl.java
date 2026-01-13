@@ -5,6 +5,7 @@ import com.VealkeAI.TOlogUseLOG.DTO.task.TaskDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskSearchFilterDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.task.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
+import com.VealkeAI.TOlogUseLOG.DTO.task.UpdateTaskDTO;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
 import com.VealkeAI.TOlogUseLOG.service.TaskService;
@@ -70,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDTO updateTask(Long taskId, ObtainedTaskDTO taskToUpdate) {
+    public TaskDTO updateTask(Long taskId, UpdateTaskDTO taskToUpdate) {
 
         var task = taskRepository.findById(taskId)
                 .orElseThrow(
