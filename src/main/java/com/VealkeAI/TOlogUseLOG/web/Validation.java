@@ -9,7 +9,10 @@ import java.time.Instant;
 public class Validation {
 
     public <T extends Task> void validateTask(T task, Instant currentTime) {
-        if(task.deadline() != null && task.deadline().isBefore(currentTime)) {
+        if (task.name() == null || task.name().isBlank()) {
+            throw new IllegalArgumentException("Task name cannot be empty");
+        }
+        if (task.deadline() != null && task.deadline().isBefore(currentTime)) {
             throw new IllegalArgumentException("Deadline cannot start in the past");
         }
     }
