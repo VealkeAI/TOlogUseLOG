@@ -69,29 +69,27 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskDTO updateTask(Long taskId, ObtainedTaskDTO taskToUpdate) {
 
-
-        var oldTask = taskRepository.findById(taskId)
+        var task = taskRepository.findById(taskId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found task by id: " + taskId)
                 );
 
         var currentTime = Instant.now().plus(
-                oldTask.getUser().getShiftUTC(),
+                task.getUser().getShiftUTC(),
                 ChronoUnit.HOURS
         );
 
         validation.validateTask(taskToUpdate, currentTime);
 
-        var taskToSave = taskMapper.toEntity(taskToUpdate);
-        taskToSave.setId(taskId);
-        taskToSave.setUser(oldTask.getUser());
-        taskToSave.setCreationTime(oldTask.getCreationTime());
+        task.setName(taskToUpdate.name());
+        task.setDescription(taskToUpdate.description());
+        task.setDeadline(taskToUpdate.deadline());
+        task.setPriority(taskToUpdate.priority());
 
-        var updatedTask = taskRepository.save(taskToSave);
-
-        return taskMapper.toDomain(updatedTask);
+        return taskMapper.toDomain(task);
     }
 
     @Override
@@ -140,6 +138,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void deleteTask(Long id) {
 
         var userToDelete = taskRepository.findById(id)
@@ -160,8 +159,6 @@ public class TaskServiceImpl implements TaskService {
                 );
 
         task.setPriority(priority);
-
-        taskRepository.save(task);
     }
 
     @Override
@@ -174,7 +171,5 @@ public class TaskServiceImpl implements TaskService {
                 );
 
         task.setState(state);
-
-        taskRepository.save(task);
     }
 }
