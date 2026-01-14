@@ -1,6 +1,9 @@
 package com.VealkeAI.TOlogUseLOG.entity;
 
+import com.VealkeAI.TOlogUseLOG.web.enums.NotificationSendState;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +24,8 @@ public class NotificationOutboxEntity {
     private Long taskId;
     private Instant deadline;
     private Integer shift;
-    private Boolean isLoaded = false;
+    @Enumerated(EnumType.STRING)
+    private NotificationSendState state = NotificationSendState.WAIT;
 
     public NotificationOutboxEntity() {}
 

@@ -7,6 +7,7 @@ import com.VealkeAI.TOlogUseLOG.DTO.task.TaskWithPageInfoDTO;
 import com.VealkeAI.TOlogUseLOG.DTO.mapper.TaskMapper;
 import com.VealkeAI.TOlogUseLOG.DTO.task.UpdateTaskDTO;
 import com.VealkeAI.TOlogUseLOG.entity.NotificationOutboxEntity;
+import com.VealkeAI.TOlogUseLOG.event.notification.RegisterNotificationEvent;
 import com.VealkeAI.TOlogUseLOG.repository.NotificationOutboxRepository;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
 import com.VealkeAI.TOlogUseLOG.repository.UserRepository;
@@ -18,6 +19,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final NotificationOutboxRepository notificationOutboxRepository;
     private final TaskMapper taskMapper;
-    private final SchedulerService schedulerService;
+    private final ApplicationEventPublisher eventPublisher;
     private final Validation validation;
 
     @Override
@@ -70,6 +72,8 @@ public class TaskServiceImpl implements TaskService {
                     user.getShiftUTC()
             );
             notificationOutboxRepository.save(notification);
+
+            eventPublisher.publishEvent(new RegisterNotificationEvent(notification.getId()));
         }
 
         logger.info("Created task with id: {}", createdTask.getId());
