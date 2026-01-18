@@ -1,7 +1,7 @@
-package com.VealkeAI.TOlogUseLOG.service.impl;
+package com.VealkeAI.TOlogUseLOG.schedule;
 
-import com.VealkeAI.TOlogUseLOG.entity.NotificationOutboxEntity;
 import com.VealkeAI.TOlogUseLOG.repository.NotificationOutboxRepository;
+import com.VealkeAI.TOlogUseLOG.service.impl.SchedulerService;
 import com.VealkeAI.TOlogUseLOG.web.enums.NotificationSendState;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

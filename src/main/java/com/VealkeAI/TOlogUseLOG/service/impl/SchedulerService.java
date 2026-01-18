@@ -1,7 +1,7 @@
 package com.VealkeAI.TOlogUseLOG.service.impl;
 
 import com.VealkeAI.TOlogUseLOG.entity.NotificationOutboxEntity;
-import com.VealkeAI.TOlogUseLOG.service.schedulerJobs.SendMessageJob;
+import com.VealkeAI.TOlogUseLOG.schedule.schedulerJobs.SendMessageJob;
 import com.VealkeAI.TOlogUseLOG.web.enums.NotificationSendState;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

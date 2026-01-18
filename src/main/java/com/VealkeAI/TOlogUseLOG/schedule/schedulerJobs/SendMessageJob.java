@@ -1,4 +1,4 @@
-package com.VealkeAI.TOlogUseLOG.service.schedulerJobs;
+package com.VealkeAI.TOlogUseLOG.schedule.schedulerJobs;
 
 import com.VealkeAI.TOlogUseLOG.DTO.MessageDTO;
 import com.VealkeAI.TOlogUseLOG.repository.TaskRepository;
